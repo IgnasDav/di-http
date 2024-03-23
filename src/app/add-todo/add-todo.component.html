@@ -1,0 +1,7 @@
+<form [formGroup]="formGroup">
+  <mat-form-field>
+    <mat-label> Todo </mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+  <button mat-button (click)="addTodo()">Add</button>
+</form>

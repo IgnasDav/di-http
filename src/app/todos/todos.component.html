@@ -1,0 +1,11 @@
+<mat-card>
+  @if (todos()?.length) {
+    <mat-selection-list>
+      @for (todo of todos(); track todo.id) {
+        <mat-list-option>{{ todo.name }}</mat-list-option>
+      }
+    </mat-selection-list>
+  } @else {
+    <p>No todos...</p>
+  }
+</mat-card>

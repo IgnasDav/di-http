@@ -1,0 +1,15 @@
+mat-card {
+  max-height: 40rem;
+  min-height: 40rem;
+  width: 50rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  padding: 1rem;
+
+  mat-selection-list {
+    width: 100%;
+  }
+}
