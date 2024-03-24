@@ -1,9 +1,8 @@
 <mat-card>
-  <!-- <app-todo></app-todo> -->
-  @if (service.todos.length) {
+  @if (todos()?.length) {
     <mat-selection-list>
-      @for (todo of service.todos; track todo.id) {
-        <mat-list-option>{{ todo.name }}</mat-list-option>
+      @for (todo of todos(); track todo.id) {
+        <mat-list-option>{{ todo.todo }}</mat-list-option>
       }
     </mat-selection-list>
   } @else {

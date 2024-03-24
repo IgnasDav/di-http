@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import {
   AbstractControl,
   NonNullableFormBuilder,
@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TodoFormControls } from '../constants';
-import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -23,7 +22,7 @@ import { TodoService } from '../services/todo.service';
   styleUrl: './add-todo.component.scss',
 })
 export class AddTodoComponent {
-  @Input() service!: TodoService;
+  onAddTodo = output<string>();
   readonly formGroup = this.formBuilder.group({
     name: [''],
   });
@@ -34,7 +33,7 @@ export class AddTodoComponent {
 
   addTodo(): void {
     if (this.nameControl?.value) {
-      this.service.addTodo(this.nameControl.value);
+      this.onAddTodo.emit(this.nameControl.value);
       this.nameControl.reset();
     }
   }

@@ -1,8 +1,15 @@
 export interface Todo {
   id: number;
-  name: string;
-  timestamp: Date;
-  isFavorite?: boolean;
+  todo: string;
+  completed: boolean;
+  userId: number;
 }
 
 export type Todos = Todo[];
+
+export interface TodosRes {
+  todos: Todos;
+  limit: number;
+  skip: number;
+  total: number;
+}

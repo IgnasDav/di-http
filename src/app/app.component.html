@@ -2,6 +2,6 @@
   <p>Services/Injection</p>
 </mat-toolbar>
 <div>
-  <app-add-todo [service]="todoService" />
-  <app-todos [service]="todoService" />
+  <app-add-todo (onAddTodo)="addTodo($event)" />
+  <app-todos [todos]="todoService.todos$ | async" />
 </div>

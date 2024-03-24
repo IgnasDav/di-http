@@ -1,23 +1,42 @@
-import { Injectable } from '@angular/core';
-import { Todos } from '../types';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Todo, Todos, TodosRes } from '../types';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Subject, map, takeUntil, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TodoService {
-  private _todos: Todos = [];
-  #id: number = 0;
+export class TodoService implements OnDestroy {
+  readonly todos$ = new BehaviorSubject<Todos>([]);
+  private readonly destroy$ = new Subject<void>();
+  private readonly client = inject(HttpClient);
 
-  get todos(): Todos {
-    return this._todos;
+  initTodos(): void {
+    this.client
+      .get<TodosRes>('https://dummyjson.com/todos')
+      .pipe(
+        map((res) => res.todos),
+        tap((todos) => this.todos$.next(todos)),
+        takeUntil(this.destroy$),
+      )
+      .subscribe();
   }
 
   addTodo(todoName: string): void {
-    this._todos.push({
-      name: todoName,
-      timestamp: new Date(),
-      id: this.#id,
-    });
-    this.#id++;
+    this.client
+      .post<Todo>('https://dummyjson.com/todos/add', {
+        todo: todoName,
+        completed: false,
+        userId: 1,
+      })
+      .pipe(
+        tap((todo) => this.todos$.next([...this.todos$.value, todo])),
+        takeUntil(this.destroy$),
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 }

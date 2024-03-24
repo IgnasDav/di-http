@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, input } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { TodoService } from '../services/todo.service';
 import { MatCardModule } from '@angular/material/card';
 import { TodoComponent } from './todo/todo.component';
+import { Todos } from '../types';
 
 @Component({
   selector: 'app-todos',
@@ -10,12 +10,7 @@ import { TodoComponent } from './todo/todo.component';
   imports: [MatListModule, MatCardModule, TodoComponent],
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.scss',
-  // providers: [TodoService],
 })
 export class TodosComponent {
-  @Input() service!: TodoService;
-  todoService!: TodoService;
-  constructor() {
-    this.todoService = new TodoService();
-  }
+  todos = input<Todos | null>();
 }
